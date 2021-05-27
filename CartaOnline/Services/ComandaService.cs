@@ -8,15 +8,15 @@ namespace CartaOnline.Services
     public interface IComandaService
     {
         ComandaDto CreateComanda(ComandaDto comanda);
-        IEnumerable<ResponseGetAllComandaDto> GetComandas(string hora);
+        IEnumerable<ResponseGetAllComandaDto> GetComanda(string hora);
         ResponseGetComandaById GetComandaId(int id);
 
     }
-    public class ComandaService : IComandaService
+    public class Comandaervice : IComandaService
     {
         private readonly IRepositoryGeneric _repository;
         private readonly IComandaQuery _query;
-        public ComandaService(IRepositoryGeneric repository, IComandaQuery query)
+        public Comandaervice(IRepositoryGeneric repository, IComandaQuery query)
         {
             _repository = repository;
             _query = query;
@@ -32,9 +32,9 @@ namespace CartaOnline.Services
             return _query.GetComandaById(id);
         }
 
-        public IEnumerable<ResponseGetAllComandaDto> GetComandas(string hora)
+        public IEnumerable<ResponseGetAllComandaDto> GetComanda(string hora)
         {
-            return _query.GetAllComandas(hora);
+            return _query.GetAllComanda(hora);
         }
     }
 }

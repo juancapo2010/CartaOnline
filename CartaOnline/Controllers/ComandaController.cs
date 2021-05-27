@@ -9,23 +9,23 @@ namespace CartaOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ComandasController : ControllerBase
+    public class ComandaController : ControllerBase
     {
         private readonly IComandaService _service;
 
-        public ComandasController(IComandaService service)
+        public ComandaController(IComandaService service)
         {
             _service = service;
         }
 
-        // GET: api/Comandas
+        // GET: api/Comanda
         [HttpGet]
         [ProducesResponseType(typeof(List<ResponseGetAllComandaDto>), StatusCodes.Status200OK)]
-        public IActionResult GetComandas([FromQuery] string hora)
+        public IActionResult GetComanda([FromQuery] string hora)
         {
             try
             {
-                return new JsonResult(_service.GetComandas(hora)) { StatusCode = 200 };
+                return new JsonResult(_service.GetComanda(hora)) { StatusCode = 200 };
             }
             catch (Exception e)
             {
@@ -33,7 +33,7 @@ namespace CartaOnline.Controllers
             }
         }
 
-        // GET: api/Comandas/5
+        // GET: api/Comanda/5
         [HttpGet("{id}")]
         public IActionResult GetComanda(int id)
         {
@@ -48,7 +48,7 @@ namespace CartaOnline.Controllers
             
         }
 
-        // POST: api/Comandas
+        // POST: api/Comanda
         [HttpPost]
         public IActionResult PostComanda(ComandaDto comanda)
         {

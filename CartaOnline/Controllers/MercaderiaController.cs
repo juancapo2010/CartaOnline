@@ -9,19 +9,19 @@ namespace CartaOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MercaderiasController : ControllerBase
+    public class MercaderiaController : ControllerBase
     {
         private readonly IMercaderiaService _service;
 
-        public MercaderiasController(IMercaderiaService service)
+        public MercaderiaController(IMercaderiaService service)
         {
             _service = service;
         }
 
-        // GET: api/Mercaderias
+        // GET: api/Mercaderia
         [HttpGet]
         [ProducesResponseType(typeof(List<ResponseGetMercaderiaTipoDto>), StatusCodes.Status200OK)]
-        public IActionResult GetMercaderias([FromQuery] string tipo)
+        public IActionResult GetMercaderia([FromQuery] string tipo)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace CartaOnline.Controllers
             
         }
 
-        // GET: api/Mercaderias/5
+        // GET: api/Mercaderia/5
         [HttpGet("{id}")]
         public IActionResult GetMercaderia(int id)
         {
@@ -49,7 +49,7 @@ namespace CartaOnline.Controllers
             
         }
 
-        // PUT: api/Mercaderias/5
+        // PUT: api/Mercaderia/5
         [HttpPut("{id}")]
         public IActionResult PutMercaderia(int id, MercaderiaUpdateDto mercaderia)
         {
@@ -65,7 +65,7 @@ namespace CartaOnline.Controllers
 
         }
 
-        // POST: api/Mercaderias
+        // POST: api/Mercaderia
         [HttpPost]
         public IActionResult PostMercaderia(MercaderiaDto mercaderia)
         {
@@ -82,7 +82,7 @@ namespace CartaOnline.Controllers
            
         }
 
-        // DELETE: api/Mercaderias/5
+        // DELETE: api/Mercaderia/5
         [HttpDelete("{id}")]
         public void DeleteMercaderia(int id)
         {

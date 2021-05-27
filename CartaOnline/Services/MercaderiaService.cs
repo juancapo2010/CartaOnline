@@ -10,17 +10,17 @@ namespace CartaOnline.Services
     public interface IMercaderiaService
     {
         Mercaderia CreateMercaderia(MercaderiaDto mercaderia);
-        IEnumerable<Mercaderia> GetMercaderias();
+        IEnumerable<Mercaderia> GetMercaderia();
         Mercaderia GetMercaderiaId(int id);
         List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo);
         void DeleteMercaderiaId(int id);
         Mercaderia UpdateMercaderia(MercaderiaUpdateDto mercaderia);
     }
-    public class MercaderiaService : IMercaderiaService
+    public class Mercaderiaervice : IMercaderiaService
     {
         private readonly IRepositoryGeneric _repository;
         private readonly IMercaderiaQuery _query;
-        public MercaderiaService(IRepositoryGeneric repository, IMercaderiaQuery query)
+        public Mercaderiaervice(IRepositoryGeneric repository, IMercaderiaQuery query)
         {
             _repository = repository;
             _query = query;
@@ -56,7 +56,7 @@ namespace CartaOnline.Services
             return _repository.FindBy<Mercaderia>(id);
         }
 
-        public IEnumerable<Mercaderia> GetMercaderias()
+        public IEnumerable<Mercaderia> GetMercaderia()
         {
             return _repository.Traer<Mercaderia>();
         }

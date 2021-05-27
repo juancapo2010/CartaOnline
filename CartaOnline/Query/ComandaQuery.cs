@@ -10,7 +10,7 @@ namespace CartaOnline.Query
 {
     public interface IComandaQuery
     {
-        List<ResponseGetAllComandaDto> GetAllComandas(string hora);
+        List<ResponseGetAllComandaDto> GetAllComanda(string hora);
         ResponseGetComandaById GetComandaById(int id);
         ComandaDto CreateComanda(ComandaDto comanda);
 
@@ -29,7 +29,7 @@ namespace CartaOnline.Query
         public ComandaDto CreateComanda(ComandaDto comanda)
         {
             var db = new QueryFactory(_connection, _SqlKataCompiler);
-            var id = db.Query("Comandas").InsertGetId<int>(
+            var id = db.Query("Comanda").InsertGetId<int>(
                 new
                 {
                     comanda.FormaEntregaId,
@@ -37,42 +37,42 @@ namespace CartaOnline.Query
                     PrecioTotal = 0
                 }
                 );
-            foreach(var mercaderias in comanda.Mercaderias.ToList())
+            foreach(var Mercaderia in comanda.Mercaderia.ToList())
             {
                 db.Query("ComandaMercaderias").Insert(
                 new
                 {
                     ComandaId = id,
-                    mercaderias.MercaderiaId
+                    Mercaderia.MercaderiaId
                 }
                 );
                 
             }
             int suma = 0;
-            foreach (var actualizapreciototal in comanda.Mercaderias.ToList())
+            foreach (var actualizapreciototal in comanda.Mercaderia.ToList())
             {
                 var actualizo = db.Query("Mercaderias")
                     .Select()
                     .Where("MercaderiaId", "=", actualizapreciototal.MercaderiaId)
-                    .FirstOrDefault<ResponseGetComandaByIdMercaderias>();
+                    .FirstOrDefault<ResponseGetComandaByIdMercaderia>();
                  suma = actualizo.Precio + suma;
 
             }
-            db.Query("Comandas").Where("ComandaId", "=", id).Update(new { precioTotal = suma });
+            db.Query("Comanda").Where("ComandaId", "=", id).Update(new { precioTotal = suma });
             return comanda;
         }
 
-        public List<ResponseGetAllComandaDto> GetAllComandas(string hora)
+        public List<ResponseGetAllComandaDto> GetAllComanda(string hora)
         {
             var db = new QueryFactory(_connection, _SqlKataCompiler);
 
-            var comanda = db.Query("Comandas")
-                .Select("Comandas.ComandaId",
-                "Comandas.PrecioTotal",
-                "Comandas.Fecha",
-                "Comandas.FormaEntregaId")
+            var comanda = db.Query("Comanda")
+                .Select("Comanda.ComandaId",
+                "Comanda.PrecioTotal",
+                "Comanda.Fecha",
+                "Comanda.FormaEntregaId")
                 .OrderByDesc("Fecha")
-                .When(!string.IsNullOrWhiteSpace(hora), q => q.WhereLike("Comandas.Fecha", $"%{hora}%"));
+                .When(!string.IsNullOrWhiteSpace(hora), q => q.WhereLike("Comanda.Fecha", $"%{hora}%"));
             var ComandaResult = comanda.Get<ResponseGetAllComandaDto>();
 
             List<ResponseGetAllComandaDto> result = new List<ResponseGetAllComandaDto>();
@@ -83,12 +83,12 @@ namespace CartaOnline.Query
                     .Where("FormaEntregaId", "=", c.FormaEntregaId)
                     .FirstOrDefault<ResponseGetFormaEntregaByComanda>();
 
-                var mercaderias = db.Query("ComandaMercaderias")
+                var Mercaderia = db.Query("ComandaMercaderias")
                     .Select()
                     .Where("ComandaId", "=",c.ComandaId )
                     .Join("Mercaderias", "Mercaderias.MercaderiaId", "ComandaMercaderias.MercaderiaId");
 
-                var MercaderiaResult = mercaderias.Get<ResponseGetMercaderiasByComanda>();
+                var MercaderiaResult = Mercaderia.Get<ResponseGetMercaderiaByComanda>();
 
                 result.Add(
                      new ResponseGetAllComandaDto
@@ -97,7 +97,7 @@ namespace CartaOnline.Query
                         PrecioTotal = c.PrecioTotal,
                         Fecha = c.Fecha,
                         FormaEntrega = formaentrega,
-                        Mercaderias = MercaderiaResult.ToList()
+                        Mercaderia = MercaderiaResult.ToList()
                     });
                 
             }
@@ -108,11 +108,11 @@ namespace CartaOnline.Query
         {
             var db = new QueryFactory(_connection, _SqlKataCompiler);
 
-            var comanda = db.Query("Comandas")
-                .Select("Comandas.ComandaId",
-                "Comandas.PrecioTotal",
-                "Comandas.Fecha",
-                "Comandas.FormaEntregaId")
+            var comanda = db.Query("Comanda")
+                .Select("Comanda.ComandaId",
+                "Comanda.PrecioTotal",
+                "Comanda.Fecha",
+                "Comanda.FormaEntregaId")
                 .Where("ComandaId", "=", id)
                 .FirstOrDefault<ResponseGetComandaById>();
 
@@ -121,19 +121,19 @@ namespace CartaOnline.Query
                 .Where("FormaEntregaId", "=", comanda.FormaEntregaId)
                 .FirstOrDefault<ResponseGetComandaByIdFormaEntrega>();
 
-            var mercaderias = db.Query("ComandaMercaderias")
+            var Mercaderia = db.Query("ComandaMercaderias")
                 .Select()
                 .Where("ComandaId", "=", id)
                 .Join("Mercaderias", "Mercaderias.MercaderiaId", "ComandaMercaderias.MercaderiaId");
 
-            var result = mercaderias.Get<ResponseGetComandaByIdMercaderias>();
+            var result = Mercaderia.Get<ResponseGetComandaByIdMercaderia>();
             return new ResponseGetComandaById
             {
                  ComandaId = comanda.ComandaId,
-                 PrecioTotal = 1000,
+                 PrecioTotal =  comanda.PrecioTotal,
                  Fecha = comanda.Fecha,
                  FormaEntrega = formaentrega,
-                 Mercaderias = result.ToList()
+                 Mercaderia = result.ToList()
              };
         }
     }

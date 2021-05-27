@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CartaOnline.Migrations
 {
-    public partial class inicial : Migration
+    public partial class iniciar : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,7 +34,7 @@ namespace CartaOnline.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comandas",
+                name: "Comanda",
                 columns: table => new
                 {
                     ComandaId = table.Column<int>(type: "int", nullable: false)
@@ -45,9 +45,9 @@ namespace CartaOnline.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comandas", x => x.ComandaId);
+                    table.PrimaryKey("PK_Comanda", x => x.ComandaId);
                     table.ForeignKey(
-                        name: "FK_Comandas_FormasEntregas_FormaEntregaId",
+                        name: "FK_Comanda_FormasEntregas_FormaEntregaId",
                         column: x => x.FormaEntregaId,
                         principalTable: "FormasEntregas",
                         principalColumn: "FormaEntregaId",
@@ -89,9 +89,9 @@ namespace CartaOnline.Migrations
                 {
                     table.PrimaryKey("PK_ComandaMercaderias", x => new { x.ComandaId, x.MercaderiaId });
                     table.ForeignKey(
-                        name: "FK_ComandaMercaderias_Comandas_ComandaId",
+                        name: "FK_ComandaMercaderias_Comanda_ComandaId",
                         column: x => x.ComandaId,
-                        principalTable: "Comandas",
+                        principalTable: "Comanda",
                         principalColumn: "ComandaId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -129,15 +129,29 @@ namespace CartaOnline.Migrations
                     { 10, "Postres" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Mercaderias",
+                columns: new[] { "MercaderiaId", "Imagen", "Ingredientes", "Nombre", "Precio", "Preparacion", "TipoMercaderiaId" },
+                values: new object[,]
+                {
+                    { 6, "image/milanesa.jpg", "Carne vacuna al plato", "Milanesa con fritas", 350, "frita", 2 },
+                    { 7, "image/milanesa.jpg", "Carne vacuna y pan", "Milanesa de pollo con fritas", 350, "frita", 2 },
+                    { 5, "image/pasta.jpg", "harina y sal", "Tallarines", 300, "hervida", 3 },
+                    { 1, "image/milanesa.jpg", "Carne vacuna y pan", "Milanesa de Carne", 350, "frita", 6 },
+                    { 4, "image/milanesa.jpg", "Carne pollo y pan", "Milanesa de Pollo", 350, "frita", 6 },
+                    { 2, "image/coca.jpg", "no se sabe", "Coca Cola", 100, "fria", 8 },
+                    { 3, "image/helado.jpg", "leche", "Helado de Chocolate", 150, "fria", 10 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comanda_FormaEntregaId",
+                table: "Comanda",
+                column: "FormaEntregaId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_ComandaMercaderias_MercaderiaId",
                 table: "ComandaMercaderias",
                 column: "MercaderiaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comandas_FormaEntregaId",
-                table: "Comandas",
-                column: "FormaEntregaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mercaderias_TipoMercaderiaId",
@@ -151,7 +165,7 @@ namespace CartaOnline.Migrations
                 name: "ComandaMercaderias");
 
             migrationBuilder.DropTable(
-                name: "Comandas");
+                name: "Comanda");
 
             migrationBuilder.DropTable(
                 name: "Mercaderias");

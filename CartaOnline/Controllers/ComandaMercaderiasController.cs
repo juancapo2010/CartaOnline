@@ -7,16 +7,16 @@ namespace CartaOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ComandaMercaderiasController : ControllerBase
+    public class ComandaMercaderiaController : ControllerBase
     {
-        private readonly IComandaMercaderiaService _service;
+        private readonly IComandaMercaderiaervice _service;
 
-        public ComandaMercaderiasController(IComandaMercaderiaService service)
+        public ComandaMercaderiaController(IComandaMercaderiaervice service)
         {
             _service = service;
         }
 
-        // POST: api/ComandaMercaderias
+        // POST: api/ComandaMercaderia
         [HttpPost]
         public ComandaMercaderia PostComandaMercaderia(ComandaMercaderiaDto comandaMercaderia)
         {

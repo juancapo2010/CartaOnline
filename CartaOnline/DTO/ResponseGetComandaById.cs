@@ -10,9 +10,9 @@ namespace CartaOnline.DTO
         public DateTime Fecha { get; set; }
         public int FormaEntregaId { get; set; }
         public ResponseGetComandaByIdFormaEntrega FormaEntrega { get; set; }
-        public List<ResponseGetComandaByIdMercaderias> Mercaderias { get; set; }
+        public List<ResponseGetComandaByIdMercaderia> Mercaderia { get; set; }
     }
-    public class ResponseGetComandaByIdMercaderias
+    public class ResponseGetComandaByIdMercaderia
     {
         public string MercaderiaId { get; set; }
         public string Nombre { get; set; }

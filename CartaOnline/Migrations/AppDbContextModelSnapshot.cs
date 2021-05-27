@@ -39,7 +39,7 @@ namespace CartaOnline.Migrations
 
                     b.HasIndex("FormaEntregaId");
 
-                    b.ToTable("Comandas");
+                    b.ToTable("Comanda");
                 });
 
             modelBuilder.Entity("CartaOnline.Models.ComandaMercaderia", b =>
@@ -119,6 +119,78 @@ namespace CartaOnline.Migrations
                     b.HasIndex("TipoMercaderiaId");
 
                     b.ToTable("Mercaderias");
+
+                    b.HasData(
+                        new
+                        {
+                            MercaderiaId = 1,
+                            Imagen = "image/milanesa.jpg",
+                            Ingredientes = "Carne vacuna y pan",
+                            Nombre = "Milanesa de Carne",
+                            Precio = 350,
+                            Preparacion = "frita",
+                            TipoMercaderiaId = 6
+                        },
+                        new
+                        {
+                            MercaderiaId = 2,
+                            Imagen = "image/coca.jpg",
+                            Ingredientes = "no se sabe",
+                            Nombre = "Coca Cola",
+                            Precio = 100,
+                            Preparacion = "fria",
+                            TipoMercaderiaId = 8
+                        },
+                        new
+                        {
+                            MercaderiaId = 3,
+                            Imagen = "image/helado.jpg",
+                            Ingredientes = "leche",
+                            Nombre = "Helado de Chocolate",
+                            Precio = 150,
+                            Preparacion = "fria",
+                            TipoMercaderiaId = 10
+                        },
+                        new
+                        {
+                            MercaderiaId = 4,
+                            Imagen = "image/milanesa.jpg",
+                            Ingredientes = "Carne pollo y pan",
+                            Nombre = "Milanesa de Pollo",
+                            Precio = 350,
+                            Preparacion = "frita",
+                            TipoMercaderiaId = 6
+                        },
+                        new
+                        {
+                            MercaderiaId = 5,
+                            Imagen = "image/pasta.jpg",
+                            Ingredientes = "harina y sal",
+                            Nombre = "Tallarines",
+                            Precio = 300,
+                            Preparacion = "hervida",
+                            TipoMercaderiaId = 3
+                        },
+                        new
+                        {
+                            MercaderiaId = 6,
+                            Imagen = "image/milanesa.jpg",
+                            Ingredientes = "Carne vacuna al plato",
+                            Nombre = "Milanesa con fritas",
+                            Precio = 350,
+                            Preparacion = "frita",
+                            TipoMercaderiaId = 2
+                        },
+                        new
+                        {
+                            MercaderiaId = 7,
+                            Imagen = "image/milanesa.jpg",
+                            Ingredientes = "Carne vacuna y pan",
+                            Nombre = "Milanesa de pollo con fritas",
+                            Precio = 350,
+                            Preparacion = "frita",
+                            TipoMercaderiaId = 2
+                        });
                 });
 
             modelBuilder.Entity("CartaOnline.Models.TipoMercaderia", b =>
@@ -191,7 +263,7 @@ namespace CartaOnline.Migrations
             modelBuilder.Entity("CartaOnline.Models.Comanda", b =>
                 {
                     b.HasOne("CartaOnline.Models.FormaEntrega", "FormaEntrega")
-                        .WithMany("Comandas")
+                        .WithMany("Comanda")
                         .HasForeignKey("FormaEntregaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -202,13 +274,13 @@ namespace CartaOnline.Migrations
             modelBuilder.Entity("CartaOnline.Models.ComandaMercaderia", b =>
                 {
                     b.HasOne("CartaOnline.Models.Comanda", "Comanda")
-                        .WithMany("ComandaMercaderias")
+                        .WithMany("ComandaMercaderia")
                         .HasForeignKey("ComandaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CartaOnline.Models.Mercaderia", "Mercaderia")
-                        .WithMany("ComandaMercaderias")
+                        .WithMany("ComandaMercaderia")
                         .HasForeignKey("MercaderiaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -231,17 +303,17 @@ namespace CartaOnline.Migrations
 
             modelBuilder.Entity("CartaOnline.Models.Comanda", b =>
                 {
-                    b.Navigation("ComandaMercaderias");
+                    b.Navigation("ComandaMercaderia");
                 });
 
             modelBuilder.Entity("CartaOnline.Models.FormaEntrega", b =>
                 {
-                    b.Navigation("Comandas");
+                    b.Navigation("Comanda");
                 });
 
             modelBuilder.Entity("CartaOnline.Models.Mercaderia", b =>
                 {
-                    b.Navigation("ComandaMercaderias");
+                    b.Navigation("ComandaMercaderia");
                 });
 
             modelBuilder.Entity("CartaOnline.Models.TipoMercaderia", b =>

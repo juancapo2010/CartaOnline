@@ -10,23 +10,23 @@ namespace CartaOnline.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TipoMercaderiasController : ControllerBase
+    public class TipoMercaderiaController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public TipoMercaderiasController(AppDbContext context)
+        public TipoMercaderiaController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/TipoMercaderias
+        // GET: api/TipoMercaderia
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TipoMercaderia>>> GetTipoMercaderia()
         {
             return await _context.TipoMercaderia.ToListAsync();
         }
 
-        // GET: api/TipoMercaderias/5
+        // GET: api/TipoMercaderia/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TipoMercaderia>> GetTipoMercaderia(int id)
         {
@@ -40,7 +40,7 @@ namespace CartaOnline.Controllers
             return tipoMercaderia;
         }
 
-        // PUT: api/TipoMercaderias/5
+        // PUT: api/TipoMercaderia/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTipoMercaderia(int id, TipoMercaderia tipoMercaderia)
         {
@@ -70,7 +70,7 @@ namespace CartaOnline.Controllers
             return NoContent();
         }
 
-        // POST: api/TipoMercaderias
+        // POST: api/TipoMercaderia
         [HttpPost]
         public async Task<ActionResult<TipoMercaderia>> PostTipoMercaderia(TipoMercaderia tipoMercaderia)
         {
@@ -80,7 +80,7 @@ namespace CartaOnline.Controllers
             return CreatedAtAction("GetTipoMercaderia", new { id = tipoMercaderia.TipoMercaderiaId }, tipoMercaderia);
         }
 
-        // DELETE: api/TipoMercaderias/5
+        // DELETE: api/TipoMercaderia/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<TipoMercaderia>> DeleteTipoMercaderia(int id)
         {

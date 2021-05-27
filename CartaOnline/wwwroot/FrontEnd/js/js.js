@@ -8,7 +8,7 @@ function RedesSociales(event){
 }
  //$(document).ready(() => {
  //    var ajax = new XMLHttpRequest();
- //    let URL = "https://localhost:44393/api/mercaderias";
+ //    let URL = "https://localhost:44393/api/Mercaderia";
  //    let METHOD = "GET";
 
  //    ajax.onreadystatechange = callback;
@@ -29,7 +29,7 @@ function RedesSociales(event){
 $(document).ready(function () {  
     $.ajax({  
         type: "GET",  
-        url: "https://localhost:44393/api/Mercaderias",    
+        url: "https://localhost:44393/api/Mercaderia",    
         dataType: "json", 
         success: function (data) {  
               $.each(data, function(i,item){
@@ -58,7 +58,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     $.ajax({
         type: "GET",
-        url: "https://localhost:44393/api/TipoMercaderias",
+        url: "https://localhost:44393/api/TipoMercaderia",
         dataType: "json",
         success: function (data) {
             $.each(data, function (i, item) {

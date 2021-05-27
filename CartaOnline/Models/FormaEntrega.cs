@@ -7,6 +7,6 @@ namespace CartaOnline.Models
         public int FormaEntregaId { get; set; }
         public string Descripcion { get; set; }
 
-        public virtual ICollection<Comanda> Comandas { get; set; }
+        public virtual ICollection<Comanda> Comanda { get; set; }
     }
 }

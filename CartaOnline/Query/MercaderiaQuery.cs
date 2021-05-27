@@ -27,7 +27,7 @@ namespace CartaOnline.Query
 
             var mercaderia = db.Query("Mercaderias")
                 .Select()
-                .Join("TipoMercaderia","TipoMercaderia.TipoMercaderiaId","mercaderias.TipoMercaderiaId")
+                .Join("TipoMercaderia","TipoMercaderia.TipoMercaderiaId","Mercaderias.TipoMercaderiaId")
                 .When(!string.IsNullOrWhiteSpace(tipo), q => q.WhereLike("TipoMercaderia.Descripcion", $"%{tipo}%"));
 
             var result = mercaderia.Get<ResponseGetMercaderiaTipoDto>();

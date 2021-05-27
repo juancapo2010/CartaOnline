@@ -48,9 +48,9 @@ namespace CartaOnline
 
             services.AddTransient<IRepositoryGeneric, RepositoryGeneric>();
             services.AddTransient<IRepositoryComanda, RepositoryComanda>();
-            services.AddTransient<IMercaderiaService, MercaderiaService>();
-            services.AddTransient<IComandaService, ComandaService>();
-            services.AddTransient<IComandaMercaderiaService, ComandaMercaderiaService>();
+            services.AddTransient<IMercaderiaService, Mercaderiaervice>();
+            services.AddTransient<IComandaService, Comandaervice>();
+            services.AddTransient<IComandaMercaderiaervice, ComandaMercaderiaervice>();
             services.AddTransient<IComandaQuery, ComandaQuery>();
             services.AddTransient<IMercaderiaQuery, MercaderiaQuery>();
 

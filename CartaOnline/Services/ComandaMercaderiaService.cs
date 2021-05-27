@@ -4,15 +4,15 @@ using CartaOnline.Repositories;
 
 namespace CartaOnline.Services
 {
-    public interface IComandaMercaderiaService
+    public interface IComandaMercaderiaervice
     {
         ComandaMercaderia AgregarMercaderia(ComandaMercaderiaDto comandamercaderia);
-        ComandaMercaderia GetComandaMercaderias(int id);
+        ComandaMercaderia GetComandaMercaderia(int id);
     }
-    public class ComandaMercaderiaService : IComandaMercaderiaService
+    public class ComandaMercaderiaervice : IComandaMercaderiaervice
     {
         private readonly IRepositoryGeneric _repository;
-        public ComandaMercaderiaService(IRepositoryGeneric repository)
+        public ComandaMercaderiaervice(IRepositoryGeneric repository)
         {
             _repository = repository;
         }
@@ -27,7 +27,7 @@ namespace CartaOnline.Services
             return entity;
         }
 
-        public ComandaMercaderia GetComandaMercaderias(int id)
+        public ComandaMercaderia GetComandaMercaderia(int id)
         {
             return _repository.FindBy<ComandaMercaderia>(id);
         }

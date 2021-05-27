@@ -14,7 +14,7 @@ namespace CartaOnline.Models
 
         public int TipoMercaderiaId { get; set; }
         public TipoMercaderia TipoMercaderia { get; set; }
-        public virtual ICollection<ComandaMercaderia> ComandaMercaderias { get; set; }
+        public virtual ICollection<ComandaMercaderia> ComandaMercaderia { get; set; }
 
     }
 }

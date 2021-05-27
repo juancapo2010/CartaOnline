@@ -13,7 +13,7 @@ namespace CartaOnline.Models
         public int FormaEntregaId { get; set; }
         public FormaEntrega FormaEntrega { get; set; }
 
-        public virtual ICollection<ComandaMercaderia> ComandaMercaderias { get; set; }
+        public virtual ICollection<ComandaMercaderia> ComandaMercaderia { get; set; }
 
     }
 }

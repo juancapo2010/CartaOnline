@@ -6,7 +6,7 @@ namespace CartaOnline.Config
     public class AppDbContext : DbContext
     {
         public DbSet<Mercaderia> Mercaderias { get; set; }
-        public DbSet<Comanda> Comandas { get; set; }
+        public DbSet<Comanda> Comanda { get; set; }
         public DbSet<FormaEntrega> FormasEntregas { get; set; }
         public DbSet<TipoMercaderia> TipoMercaderia { get; set; }
         public DbSet<ComandaMercaderia> ComandaMercaderias { get; set; }
@@ -32,6 +32,14 @@ namespace CartaOnline.Config
             var f2 = new FormaEntrega() { FormaEntregaId = 2, Descripcion = "Delivery" };
             var f3 = new FormaEntrega() { FormaEntregaId = 3, Descripcion = "Pedidos Ya" };
             modelBuilder.Entity<FormaEntrega>().HasData(new FormaEntrega[] { f1, f2, f3 });
+            var m1 = new Mercaderia() { MercaderiaId = 1, Nombre = "Milanesa de Carne", Precio = 350, Ingredientes = "Carne vacuna y pan", Preparacion = "frita", Imagen = "image/milanesa.jpg", TipoMercaderiaId = 6 };
+            var m2 = new Mercaderia() { MercaderiaId = 2, Nombre = "Coca Cola", Precio = 100, Ingredientes = "no se sabe", Preparacion = "fria", Imagen = "image/coca.jpg", TipoMercaderiaId = 8 };
+            var m3 = new Mercaderia() { MercaderiaId = 3, Nombre = "Helado de Chocolate", Precio = 150, Ingredientes = "leche", Preparacion = "fria", Imagen = "image/helado.jpg", TipoMercaderiaId = 10 };
+            var m4 = new Mercaderia() { MercaderiaId = 4, Nombre = "Milanesa de Pollo", Precio = 350, Ingredientes = "Carne pollo y pan", Preparacion = "frita", Imagen = "image/milanesa.jpg", TipoMercaderiaId = 6 };
+            var m5 = new Mercaderia() { MercaderiaId = 5, Nombre = "Tallarines", Precio = 300, Ingredientes = "harina y sal", Preparacion = "hervida", Imagen = "image/pasta.jpg", TipoMercaderiaId = 3 };
+            var m6 = new Mercaderia() { MercaderiaId = 6, Nombre = "Milanesa con fritas", Precio = 350, Ingredientes = "Carne vacuna al plato", Preparacion = "frita", Imagen = "image/milanesa.jpg", TipoMercaderiaId = 2 };
+            var m7 = new Mercaderia() { MercaderiaId = 7, Nombre = "Milanesa de pollo con fritas", Precio = 350, Ingredientes = "Carne vacuna y pan", Preparacion = "frita", Imagen = "image/milanesa.jpg", TipoMercaderiaId = 2 };
+            modelBuilder.Entity<Mercaderia>().HasData(new Mercaderia[] { m1,m2,m3,m4,m5,m6,m7});
             modelBuilder.Entity<ComandaMercaderia>().HasKey(x => new { x.ComandaId, x.MercaderiaId });
             base.OnModelCreating(modelBuilder);
         }
