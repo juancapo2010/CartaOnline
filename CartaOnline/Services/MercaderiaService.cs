@@ -2,8 +2,10 @@
 using CartaOnline.Models;
 using CartaOnline.Query;
 using CartaOnline.Repositories;
+using System;
 using System.Collections.Generic;
-
+using System.Net;
+using System.Web.Http;
 
 namespace CartaOnline.Services
 {
@@ -11,10 +13,10 @@ namespace CartaOnline.Services
     {
         Mercaderia CreateMercaderia(MercaderiaDto mercaderia);
         IEnumerable<Mercaderia> GetMercaderia();
-        Mercaderia GetMercaderiaId(int id);
+        MercaderiaDto GetMercaderiaId(int id);
         List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo);
         void DeleteMercaderiaId(int id);
-        Mercaderia UpdateMercaderia(MercaderiaUpdateDto mercaderia);
+        Mercaderia UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia);
     }
     public class Mercaderiaervice : IMercaderiaService
     {
@@ -43,7 +45,15 @@ namespace CartaOnline.Services
 
         public void DeleteMercaderiaId(int id)
         {
-            _repository.DeleteBy<Mercaderia>(id);
+            var mercaderia = _repository.FindBy<Mercaderia>(id);
+            if (mercaderia == null)
+            {
+                //decimal alguna forma tendria que pasar un mensaje al body
+            }
+            else {
+                _repository.DeleteBy<Mercaderia>(id);
+            }
+            
         }
 
         public List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo)
@@ -51,9 +61,23 @@ namespace CartaOnline.Services
             return _query.GetComandaByTipo(tipo);
         }
 
-        public Mercaderia GetMercaderiaId(int id)
+        public MercaderiaDto GetMercaderiaId(int id)
         {
-            return _repository.FindBy<Mercaderia>(id);
+            
+            var mercaderia = _repository.FindBy<Mercaderia>(id);
+            if (mercaderia == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            return new MercaderiaDto
+            {
+                Nombre = mercaderia.Nombre,
+                TipoMercaderiaId=mercaderia.TipoMercaderiaId,
+                Precio=mercaderia.Precio,
+                Ingredientes=mercaderia.Ingredientes,
+                Preparacion=mercaderia.Preparacion,
+                Imagen=mercaderia.Imagen
+            };
         }
 
         public IEnumerable<Mercaderia> GetMercaderia()
@@ -61,11 +85,16 @@ namespace CartaOnline.Services
             return _repository.Traer<Mercaderia>();
         }
 
-        public Mercaderia UpdateMercaderia(MercaderiaUpdateDto mercaderia)
+        public Mercaderia UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia)
         {
+            var validacion = _repository.FindBy<Mercaderia>(id);
+            if (validacion == null)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
             var entity = new Mercaderia
             {
-                MercaderiaId = mercaderia.MercaderiaId,
+                MercaderiaId = id,
                 Nombre = mercaderia.Nombre,
                 Precio = mercaderia.Precio,
                 Ingredientes = mercaderia.Ingredientes,

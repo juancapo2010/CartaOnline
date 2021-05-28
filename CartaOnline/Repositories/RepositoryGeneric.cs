@@ -39,6 +39,7 @@ namespace CartaOnline.Repositories
 
         public void DeleteBy<T>(int id) where T : class
         {
+            
             T entity = FindBy<T>(id);
             Delete<T>(entity);
         }

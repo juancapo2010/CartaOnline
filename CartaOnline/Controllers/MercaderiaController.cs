@@ -55,7 +55,7 @@ namespace CartaOnline.Controllers
         {
             try
             {
-                return new JsonResult(_service.UpdateMercaderia(mercaderia)) { StatusCode = 201 };
+                return new JsonResult(_service.UpdateMercaderia(id,mercaderia)) { StatusCode = 200 };
             }
             catch (Exception e)
             {

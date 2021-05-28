@@ -13,7 +13,7 @@ namespace CartaOnline.Migrations
                 {
                     FormaEntregaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Descripcion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,7 +26,7 @@ namespace CartaOnline.Migrations
                 {
                     TipoMercaderiaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Descripcion = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,10 +60,10 @@ namespace CartaOnline.Migrations
                 {
                     MercaderiaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Precio = table.Column<int>(type: "int", nullable: false),
-                    Ingredientes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Preparacion = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ingredientes = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    Preparacion = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Imagen = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TipoMercaderiaId = table.Column<int>(type: "int", nullable: false)
                 },

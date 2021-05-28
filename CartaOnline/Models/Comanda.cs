@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace CartaOnline.Models
 {
     public class Comanda
     {
+        [Required]
         public int ComandaId { get; set; }
+        [Required]
         public int PrecioTotal { get; set; }
+        [Required]
         public DateTime Fecha { get; set; }
 
         public int FormaEntregaId { get; set; }
