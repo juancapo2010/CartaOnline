@@ -1,7 +1,15 @@
 ﻿using CartaOnline.Config;
+using CartaOnline.DTO;
+using CartaOnline.Models;
 using Microsoft.EntityFrameworkCore;
+using SqlKata.Compilers;
+using SqlKata.Execution;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Net;
+using System.Web.Http;
 
 namespace CartaOnline.Repositories
 {
@@ -13,15 +21,21 @@ namespace CartaOnline.Repositories
         void Delete<T>(T entity) where T : class;
         void DeleteBy<T>(int id) where T : class;
         T FindBy<T>(int id) where T : class;
+        ComandaDto CreateComanda(ComandaDto comanda);
+
 
     }
     public class RepositoryComanda : IRepositoryComanda
     {
         private readonly AppDbContext _context;
+        private readonly IDbConnection _connection;
+        private readonly Compiler _SqlKataCompiler;
 
-        public RepositoryComanda(AppDbContext context)
+        public RepositoryComanda(AppDbContext context, IDbConnection connection, Compiler SqlKataCompiler)
         {
             _context = context;
+            _connection = connection;
+            _SqlKataCompiler = SqlKataCompiler;
         }
 
         public void Add<T>(T entity) where T : class
@@ -59,6 +73,51 @@ namespace CartaOnline.Repositories
             _context.Set<T>().Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();
+        }
+
+        public ComandaDto CreateComanda(ComandaDto comanda)
+        {
+            var db = new QueryFactory(_connection, _SqlKataCompiler);
+            var id = db.Query("Comanda").InsertGetId<int>(
+                new
+                {
+                    comanda.FormaEntrega,
+                    Fecha = DateTime.Now,
+                    PrecioTotal = 0
+                }
+                );
+            try
+            {
+                foreach (var Mercaderia in comanda.Mercaderia.ToList())
+                {
+                    db.Query("ComandaMercaderias").Insert(
+                    new
+                    {
+                        ComandaId = id,
+                        Mercaderia.Mercaderia
+                    }
+                    );
+
+                }
+                int suma = 0;
+                foreach (var actualizapreciototal in comanda.Mercaderia.ToList())
+                {
+                    var actualizo = db.Query("Mercaderias")
+                        .Select()
+                        .Where("MercaderiaId", "=", actualizapreciototal.Mercaderia)
+                        .FirstOrDefault<ResponseGetComandaByIdMercaderia>();
+                    suma = actualizo.Precio + suma;
+
+                }
+                db.Query("Comanda").Where("ComandaId", "=", id).Update(new { precioTotal = suma });
+                return comanda;
+            }
+            catch
+            {
+                DeleteBy<Comanda>(id);
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+
         }
     }
 }

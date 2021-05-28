@@ -11,7 +11,7 @@ namespace CartaOnline.Services
 {
     public interface IMercaderiaService
     {
-        Mercaderia CreateMercaderia(MercaderiaDto mercaderia);
+        MercaderiaDto CreateMercaderia(MercaderiaDto mercaderia);
         IEnumerable<Mercaderia> GetMercaderia();
         MercaderiaDto GetMercaderiaId(int id);
         List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo);
@@ -28,7 +28,7 @@ namespace CartaOnline.Services
             _query = query;
         }
 
-        public Mercaderia CreateMercaderia(MercaderiaDto mercaderia)
+        public MercaderiaDto CreateMercaderia(MercaderiaDto mercaderia)
         {
             var entity = new Mercaderia
             {
@@ -37,10 +37,18 @@ namespace CartaOnline.Services
                 Ingredientes = mercaderia.Ingredientes,
                 Preparacion = mercaderia.Preparacion,
                 Imagen = mercaderia.Imagen,
-                TipoMercaderiaId = mercaderia.TipoMercaderiaId
+                TipoMercaderiaId = mercaderia.Tipo
             };
             _repository.Add<Mercaderia>(entity);
-            return entity;
+            return new MercaderiaDto
+            {
+                Nombre = mercaderia.Nombre,
+                Tipo = mercaderia.Tipo,
+                Precio = mercaderia.Precio,
+                Ingredientes = mercaderia.Ingredientes,
+                Preparacion = mercaderia.Preparacion,
+                Imagen = mercaderia.Imagen
+            };
         }
 
         public void DeleteMercaderiaId(int id)
@@ -48,7 +56,7 @@ namespace CartaOnline.Services
             var mercaderia = _repository.FindBy<Mercaderia>(id);
             if (mercaderia == null)
             {
-                //decimal alguna forma tendria que pasar un mensaje al body
+                //de alguna forma tendria que pasar un mensaje al body
             }
             else {
                 _repository.DeleteBy<Mercaderia>(id);
@@ -72,7 +80,7 @@ namespace CartaOnline.Services
             return new MercaderiaDto
             {
                 Nombre = mercaderia.Nombre,
-                TipoMercaderiaId=mercaderia.TipoMercaderiaId,
+                Tipo=mercaderia.TipoMercaderiaId,
                 Precio=mercaderia.Precio,
                 Ingredientes=mercaderia.Ingredientes,
                 Preparacion=mercaderia.Preparacion,
@@ -100,7 +108,7 @@ namespace CartaOnline.Services
                 Ingredientes = mercaderia.Ingredientes,
                 Preparacion = mercaderia.Preparacion,
                 Imagen = mercaderia.Imagen,
-                TipoMercaderiaId = mercaderia.TipoMercaderiaId
+                TipoMercaderiaId = mercaderia.Tipo
             };
             _repository.Update(entity);
             return entity;

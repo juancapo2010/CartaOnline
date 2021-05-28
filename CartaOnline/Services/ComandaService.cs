@@ -14,9 +14,9 @@ namespace CartaOnline.Services
     }
     public class Comandaervice : IComandaService
     {
-        private readonly IRepositoryGeneric _repository;
+        private readonly IRepositoryComanda _repository;
         private readonly IComandaQuery _query;
-        public Comandaervice(IRepositoryGeneric repository, IComandaQuery query)
+        public Comandaervice(IRepositoryComanda repository, IComandaQuery query)
         {
             _repository = repository;
             _query = query;
@@ -24,7 +24,7 @@ namespace CartaOnline.Services
 
         public ComandaDto CreateComanda(ComandaDto comanda)
         {
-            return _query.CreateComanda(comanda);           
+            return _repository.CreateComanda(comanda);           
         }
 
         public ResponseGetComandaById GetComandaId(int id)

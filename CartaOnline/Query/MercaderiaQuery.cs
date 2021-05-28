@@ -26,7 +26,7 @@ namespace CartaOnline.Query
             var db = new QueryFactory(_connection, _SqlKataCompiler);
 
             var mercaderia = db.Query("Mercaderias")
-                .Select()
+                .Select("Mercaderias.Nombre","Mercaderias.TipoMercaderiaId as Tipo","Mercaderias.Precio","Mercaderias.Ingredientes","Mercaderias.Preparacion")
                 .Join("TipoMercaderia","TipoMercaderia.TipoMercaderiaId","Mercaderias.TipoMercaderiaId")
                 .When(!string.IsNullOrWhiteSpace(tipo), q => q.WhereLike("TipoMercaderia.Descripcion", $"%{tipo}%"));
 

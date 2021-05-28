@@ -1,7 +1,6 @@
 ﻿using CartaOnline.DTO;
 using SqlKata.Compilers;
 using SqlKata.Execution;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -12,7 +11,6 @@ namespace CartaOnline.Query
     {
         List<ResponseGetAllComandaDto> GetAllComanda(string hora);
         ResponseGetComandaById GetComandaById(int id);
-        ComandaDto CreateComanda(ComandaDto comanda);
 
     }
     public class ComandaQuery : IComandaQuery
@@ -24,42 +22,6 @@ namespace CartaOnline.Query
         {
             _connection = connection;
             _SqlKataCompiler = SqlKataCompiler;
-        }
-
-        public ComandaDto CreateComanda(ComandaDto comanda)
-        {
-            var db = new QueryFactory(_connection, _SqlKataCompiler);
-            var id = db.Query("Comanda").InsertGetId<int>(
-                new
-                {
-                    comanda.FormaEntregaId,
-                    Fecha = DateTime.Now,
-                    PrecioTotal = 0
-                }
-                );
-            foreach(var Mercaderia in comanda.Mercaderia.ToList())
-            {
-                db.Query("ComandaMercaderias").Insert(
-                new
-                {
-                    ComandaId = id,
-                    Mercaderia.MercaderiaId
-                }
-                );
-                
-            }
-            int suma = 0;
-            foreach (var actualizapreciototal in comanda.Mercaderia.ToList())
-            {
-                var actualizo = db.Query("Mercaderias")
-                    .Select()
-                    .Where("MercaderiaId", "=", actualizapreciototal.MercaderiaId)
-                    .FirstOrDefault<ResponseGetComandaByIdMercaderia>();
-                 suma = actualizo.Precio + suma;
-
-            }
-            db.Query("Comanda").Where("ComandaId", "=", id).Update(new { precioTotal = suma });
-            return comanda;
         }
 
         public List<ResponseGetAllComandaDto> GetAllComanda(string hora)
