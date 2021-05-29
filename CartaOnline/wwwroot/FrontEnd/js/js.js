@@ -25,7 +25,23 @@ function RedesSociales(event){
  //    }
 
  //});
-
+$(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: "https://localhost:44393/api/TipoMercaderia",
+        dataType: "json",
+        success: function (data) {
+            $.each(data, function (i, item) {
+                var row =
+                    '<button type="button" class="btn btn-outline-secondary" id="' + item.descripcion + '">' + item.descripcion + "</button>";
+                $("#categorias>div").append(row);
+            });
+        }, //End of AJAX Success function  
+        error: function () {
+            console.log("No se ha podido obtener la información");
+        }
+    });
+});
 $(document).ready(function () {  
     $.ajax({  
         type: "GET",  
@@ -55,20 +71,4 @@ $(document).ready(function () {
     });         
 });
 
-$(document).ready(function () {
-    $.ajax({
-        type: "GET",
-        url: "https://localhost:44393/api/TipoMercaderia",
-        dataType: "json",
-        success: function (data) {
-            $.each(data, function (i, item) {
-                var row =
-                    '<button type="button" class="btn btn-outline-secondary" id="'+item.descripcion+'">' + item.descripcion+"</button>";
-                $("#categorias>div").append(row);
-            });
-        }, //End of AJAX Success function  
-        error: function () {
-            console.log("No se ha podido obtener la información");
-        }
-    });
-});
+
