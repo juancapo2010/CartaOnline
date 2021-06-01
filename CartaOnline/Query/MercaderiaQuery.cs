@@ -4,13 +4,15 @@ using SqlKata.Execution;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Web.Http;
 
 namespace CartaOnline.Query
 {
 
     public interface IMercaderiaQuery
     {
-        List<ResponseGetMercaderiaTipoDto> GetComandaByTipo(string tipo);
+        List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo);
     }
     public class MercaderiaQuery : IMercaderiaQuery
     {
@@ -21,18 +23,39 @@ namespace CartaOnline.Query
             _connection = connection;
             _SqlKataCompiler = SqlKataCompiler;
         }
-        public List<ResponseGetMercaderiaTipoDto> GetComandaByTipo(string tipo)
+        public List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo)
         {
-            var db = new QueryFactory(_connection, _SqlKataCompiler);
+            try
+            {
+                var db = new QueryFactory(_connection, _SqlKataCompiler);
 
-            var mercaderia = db.Query("Mercaderias")
-                .Select("Mercaderias.Nombre", "Mercaderias.TipoMercaderiaId as Tipo", "Mercaderias.Precio", "Mercaderias.Ingredientes", "Mercaderias.Preparacion", "Mercaderias.Imagen")
-                .Join("TipoMercaderia", "TipoMercaderia.TipoMercaderiaId", "Mercaderias.TipoMercaderiaId")
-                .When(!string.IsNullOrWhiteSpace(tipo),
-                    q => q.WhereLike("TipoMercaderia.TipoMercaderiaId", $"%{tipo}%"));
-
-            var result = mercaderia.Get<ResponseGetMercaderiaTipoDto>();
-            return result.ToList();
+                var mercaderia = db.Query("Mercaderias")
+                    .Select("Mercaderias.MercaderiaId as id", "Mercaderias.Nombre", "Mercaderias.TipoMercaderiaId as Tipo", "Mercaderias.Precio", "Mercaderias.Ingredientes", "Mercaderias.Preparacion", "Mercaderias.Imagen")
+                    .Join("TipoMercaderia", "TipoMercaderia.TipoMercaderiaId", "Mercaderias.TipoMercaderiaId")
+                    .When(!string.IsNullOrWhiteSpace(tipo),
+                        q => q.WhereLike("TipoMercaderia.TipoMercaderiaId", $"%{tipo}%"));
+                int cont =0;
+                foreach(var validar in mercaderia.ToString())
+                {
+                    cont = cont + 1;
+                }
+                if(cont >0)
+                {
+                    
+                    var result = mercaderia.Get<ResponseGetMercaderiaTipoDto>();
+                    return result.ToList();
+                }
+                else
+                {
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                }
+                
+            }
+            catch
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            
 
         }
     }

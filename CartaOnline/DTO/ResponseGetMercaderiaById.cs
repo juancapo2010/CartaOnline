@@ -1,7 +1,11 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace CartaOnline.DTO
 {
-    public class ResponseGetMercaderiaTipoDto
+    public class ResponseGetMercaderiaById
     {
         public int id { get; set; }
         public string Nombre { get; set; }
@@ -10,11 +14,5 @@ namespace CartaOnline.DTO
         public string Ingredientes { get; set; }
         public string Preparacion { get; set; }
         public string Imagen { get; set; }
-
-    }
-    public class ResponseGetTipoMercaderiaByMercaderia
-    {
-        public int Tipo { get; set; }
-        public string Descripcion { get; set; }
     }
 }

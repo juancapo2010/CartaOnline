@@ -84,9 +84,30 @@ namespace CartaOnline.Controllers
 
         // DELETE: api/Mercaderia/5
         [HttpDelete("{id}")]
-        public void DeleteMercaderia(int id)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        public IActionResult DeleteMercaderia(int id)
         {
-            _service.DeleteMercaderiaId(id);
+            try
+            {
+                var mercaderia = _service.GetMercaderiaId(id);
+                if(mercaderia!=null) {
+                    _service.DeleteMercaderiaId(id);
+                    return new JsonResult(mercaderia) { StatusCode = 200 };
+                }
+                else
+                {
+                    return new JsonResult(mercaderia) { StatusCode = 404 };
+                }
+                
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+
+            }
+
+
         }
 
     }

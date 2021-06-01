@@ -41,7 +41,8 @@ namespace CartaOnline.Repositories
         {
             
             T entity = FindBy<T>(id);
-            Delete<T>(entity);
+            if(entity != null)
+                Delete<T>(entity);
         }
 
         public T FindBy<T>(int id) where T : class
