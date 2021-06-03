@@ -40,7 +40,6 @@ namespace CartaOnline.Config
             var m6 = new Mercaderia() { MercaderiaId = 6, Nombre = "Milanesa con fritas", Precio = 350, Ingredientes = "Carne vacuna al plato", Preparacion = "frita", Imagen = "image/milanesa.jpg", TipoMercaderiaId = 2 };
             var m7 = new Mercaderia() { MercaderiaId = 7, Nombre = "Milanesa de pollo con fritas", Precio = 350, Ingredientes = "Carne vacuna y pan", Preparacion = "frita", Imagen = "image/milanesa.jpg", TipoMercaderiaId = 2 };
             modelBuilder.Entity<Mercaderia>().HasData(new Mercaderia[] { m1,m2,m3,m4,m5,m6,m7});
-            modelBuilder.Entity<ComandaMercaderia>().HasKey(x => new { x.ComandaId, x.MercaderiaId });
             base.OnModelCreating(modelBuilder);
         }
     }

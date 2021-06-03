@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CartaOnline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210603000240_inicial")]
+    [Migration("20210603145747_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,13 +46,20 @@ namespace CartaOnline.Migrations
 
             modelBuilder.Entity("CartaOnline.Models.ComandaMercaderia", b =>
                 {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("ComandaId")
                         .HasColumnType("int");
 
                     b.Property<int>("MercaderiaId")
                         .HasColumnType("int");
 
-                    b.HasKey("ComandaId", "MercaderiaId");
+                    b.HasKey("id");
+
+                    b.HasIndex("ComandaId");
 
                     b.HasIndex("MercaderiaId");
 

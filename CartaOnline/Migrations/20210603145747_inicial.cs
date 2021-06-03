@@ -82,12 +82,14 @@ namespace CartaOnline.Migrations
                 name: "ComandaMercaderias",
                 columns: table => new
                 {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ComandaId = table.Column<int>(type: "int", nullable: false),
                     MercaderiaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComandaMercaderias", x => new { x.ComandaId, x.MercaderiaId });
+                    table.PrimaryKey("PK_ComandaMercaderias", x => x.id);
                     table.ForeignKey(
                         name: "FK_ComandaMercaderias_Comanda_ComandaId",
                         column: x => x.ComandaId,
@@ -147,6 +149,11 @@ namespace CartaOnline.Migrations
                 name: "IX_Comanda_FormaEntregaId",
                 table: "Comanda",
                 column: "FormaEntregaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComandaMercaderias_ComandaId",
+                table: "ComandaMercaderias",
+                column: "ComandaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ComandaMercaderias_MercaderiaId",

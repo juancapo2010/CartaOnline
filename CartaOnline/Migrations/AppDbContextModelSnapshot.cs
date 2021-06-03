@@ -44,13 +44,20 @@ namespace CartaOnline.Migrations
 
             modelBuilder.Entity("CartaOnline.Models.ComandaMercaderia", b =>
                 {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("ComandaId")
                         .HasColumnType("int");
 
                     b.Property<int>("MercaderiaId")
                         .HasColumnType("int");
 
-                    b.HasKey("ComandaId", "MercaderiaId");
+                    b.HasKey("id");
+
+                    b.HasIndex("ComandaId");
 
                     b.HasIndex("MercaderiaId");
 
