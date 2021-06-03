@@ -16,7 +16,7 @@ namespace CartaOnline.Services
         ResponseGetMercaderiaById GetMercaderiaId(int id);
         List<ResponseGetMercaderiaTipoDto> GetMercaderiaByTipo(string tipo);
         void DeleteMercaderiaId(int id);
-        Mercaderia UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia);
+        MercaderiaUpdateDto UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia);
     }
     public class Mercaderiaervice : IMercaderiaService
     {
@@ -94,7 +94,7 @@ namespace CartaOnline.Services
             return _repository.Traer<Mercaderia>();
         }
 
-        public Mercaderia UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia)
+        public MercaderiaUpdateDto UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia)
         {
             var entity = new Mercaderia
             {
@@ -107,7 +107,15 @@ namespace CartaOnline.Services
                 TipoMercaderiaId = mercaderia.Tipo
             };
             _repository.Update(entity);
-            return entity;
+            return new MercaderiaUpdateDto
+            {
+                Nombre = entity.Nombre,
+                Tipo = entity.TipoMercaderiaId,
+                Precio = entity.Precio,
+                Ingredientes = entity.Ingredientes,
+                Preparacion = entity.Preparacion,
+                Imagen = entity.Imagen
+            };
         }
 
         public bool validarMercaderias(int id)

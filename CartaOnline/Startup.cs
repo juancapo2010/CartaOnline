@@ -54,6 +54,7 @@ namespace CartaOnline
             services.AddTransient<IComandaQuery, ComandaQuery>();
             services.AddTransient<IMercaderiaQuery, MercaderiaQuery>();
 
+            services.AddCors(c => c.AddDefaultPolicy(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
  
         }
 
