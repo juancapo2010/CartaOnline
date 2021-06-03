@@ -56,7 +56,7 @@ namespace CartaOnline.Services
             var mercaderia = _repository.FindBy<Mercaderia>(id);
             if (mercaderia == null)
             {
-                //de alguna forma tendria que pasar un mensaje al body
+                throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             else {
                 _repository.DeleteBy<Mercaderia>(id);
@@ -96,11 +96,6 @@ namespace CartaOnline.Services
 
         public Mercaderia UpdateMercaderia(int id, MercaderiaUpdateDto mercaderia)
         {
-            var validacion = _repository.FindBy<Mercaderia>(id);
-            if (validacion == null)
-            {
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
             var entity = new Mercaderia
             {
                 MercaderiaId = id,
@@ -113,6 +108,18 @@ namespace CartaOnline.Services
             };
             _repository.Update(entity);
             return entity;
+        }
+
+        public bool validarMercaderias(int id)
+        {
+            bool existe = false;
+
+                if (_repository.FindBy<Mercaderia>(id) != null)
+                {
+                    existe = true;
+                }
+            
+            return existe;
         }
     }
 }

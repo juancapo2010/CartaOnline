@@ -5,7 +5,7 @@ namespace CartaOnline.DTO
 {
     public class ComandaDto
     {
-        public List<ComandaMercaderiaListaDto> Mercaderia { get; set; }
+        public List<int> Mercaderias { get; set; }
         public int FormaEntrega { get; set; }
 
     }

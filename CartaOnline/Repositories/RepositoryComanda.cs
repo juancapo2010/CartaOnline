@@ -21,7 +21,7 @@ namespace CartaOnline.Repositories
         void Delete<T>(T entity) where T : class;
         void DeleteBy<T>(int id) where T : class;
         T FindBy<T>(int id) where T : class;
-        ComandaDto CreateComanda(ComandaDto comanda);
+        ComandaDto CreateComanda(ComandaDto comanda, bool validacionFromaEntrega, bool validacionMercaderias);
 
 
     }
@@ -75,49 +75,56 @@ namespace CartaOnline.Repositories
             _context.SaveChanges();
         }
 
-        public ComandaDto CreateComanda(ComandaDto comanda)
+        public ComandaDto CreateComanda(ComandaDto comanda, bool validacionFromaEntrega, bool validacionMercaderias)
         {
-            var db = new QueryFactory(_connection, _SqlKataCompiler);
-            var id = db.Query("Comanda").InsertGetId<int>(
-                new
-                {
-                    comanda.FormaEntrega,
-                    Fecha = DateTime.Now,
-                    PrecioTotal = 0
-                }
-                );
-            try
+            var validacionformaentrega = validacionFromaEntrega;
+            var validacionmercaderias = validacionMercaderias;
+            if (validacionformaentrega && validacionmercaderias)
             {
-                foreach (var Mercaderia in comanda.Mercaderia.ToList())
-                {
-                    db.Query("ComandaMercaderias").Insert(
+                var db = new QueryFactory(_connection, _SqlKataCompiler);
+                var id = db.Query("Comanda").InsertGetId<int>(
                     new
                     {
-                        ComandaId = id,
-                        Mercaderia.Mercaderia
+                        FormaEntregaId = comanda.FormaEntrega,
+                        Fecha = DateTime.Now,
+                        PrecioTotal = 0
                     }
                     );
-
-                }
-                int suma = 0;
-                foreach (var actualizapreciototal in comanda.Mercaderia.ToList())
+                try
                 {
-                    var actualizo = db.Query("Mercaderias")
-                        .Select()
-                        .Where("MercaderiaId", "=", actualizapreciototal.Mercaderia)
-                        .FirstOrDefault<ResponseGetComandaByIdMercaderia>();
-                    suma = actualizo.Precio + suma;
+                    foreach (var mercaderia in comanda.Mercaderias)
+                    {
+                        db.Query("ComandaMercaderias").Insert(
+                        new
+                        {
+                            ComandaId = id,
+                            MercaderiaId = mercaderia,
+                        }
+                        );
 
+                    }
+                    int suma = 0;
+                    foreach (var actualizapreciototal in comanda.Mercaderias)
+                    {
+                        var actualizo = db.Query("Mercaderias")
+                            .Select()
+                            .Where("MercaderiaId", "=", actualizapreciototal)
+                            .FirstOrDefault<ResponseGetComandaByIdMercaderia>();
+                        suma = actualizo.Precio + suma;
+
+                    }
+                    db.Query("Comanda").Where("ComandaId", "=", id).Update(new { precioTotal = suma });
+                    return comanda;
                 }
-                db.Query("Comanda").Where("ComandaId", "=", id).Update(new { precioTotal = suma });
-                return comanda;
-            }
-            catch
-            {
-                DeleteBy<Comanda>(id);
-                throw new HttpResponseException(HttpStatusCode.NotFound);
-            }
+                catch
+                {
+                    DeleteBy<Comanda>(id);
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+                }
 
+            }
+            throw new HttpResponseException(HttpStatusCode.NotFound);
         }
+ 
     }
 }
