@@ -42,11 +42,11 @@ function CardMercaderia(data) {
                         <div id="card" class="card" style="width: 18rem;">
                             <img src="${valor.imagen}" class="card-img-top" width="200" height="150" alt="...">
                             <div class="card-body">
-                                  <h4 class="card-title"><span>${valor.nombre}</span></h4>
-                                  <p class="card-text"><strong>Ingredientes: </strong>${valor.ingredientes}<span></span></p>
-                                  <p class="card-text"><span><strong>Prepracion: </strong>${valor.preparacion}</span></p>
-                                  <p class="card-text"><span><strong>Precio: </strong>${valor.precio}</span></p>
-                                  <button class="btn btn-primary item">Ordenar</button>
+                                  <h4 id="${valor.nombre}" class="card-title itemNombre"><span>${valor.nombre}</span></h4>
+                                  <p id="${valor.ingredientes}" class="card-text itemIngredientes"><strong>Ingredientes: </strong>${valor.ingredientes}<span></span></p>
+                                  <p id="${valor.preparacion}" class="card-text itemPreparacion"><span><strong>Prepracion: </strong>${valor.preparacion}</span></p>
+                                  <p id="${valor.precio}" class="card-text itemPrecio"><span><strong>Precio: </strong>${valor.precio}</span></p>
+                                  <button id="${valor.id}" class="btn btn-primary itemButtom">Ordenar</button>
                              </div>
                         </div >
                       </div >`
@@ -74,11 +74,11 @@ function crearMercaderiaItem(mercaderia) {
                     <div id="card" class="card" style="width: 25rem;">
                     <img src="${mercaderia.imagen}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h4 class="card-title"><span>${mercaderia.nombre}</span></h4>
-                            <p class="card-text"><strong>Ingredientes: </strong>${mercaderia.ingredientes}<span></span></p>
-                            <p class="card-text"><span><strong>Prepracion: </strong>${mercaderia.preparacion}</span></p>
-                            <p class="card-text"><span><strong>Precio: </strong>${mercaderia.precio}</span></p>
-                            <button class="btn btn-primary item">Ordenar</button>
+                            <h4 id="${mercaderia.nombre}" class="card-title itemNombre"><span>${mercaderia.nombre}</span></h4>
+                            <p id="${mercaderia.ingredientes}" class="card-text itemIngredientes"><strong>Ingredientes: </strong>${mercaderia.ingredientes}<span></span></p>
+                            <p id="${mercaderia.preparacion}" class="card-text itemPreparacion"><span><strong>Prepracion: </strong>${mercaderia.preparacion}</span></p>
+                            <p id="${mercaderia.precio}" class="card-text itemPrecio"><span><strong>Precio: </strong>${mercaderia.precio}</span></p>
+                            <button id="${mercaderia.id}" class="btn btn-primary itemButtom">Ordenar</button>
                         </div>
                     </div >
                 </div >`
@@ -89,12 +89,105 @@ document.addEventListener('click', e => {
     addCarrito(e)
 })
 const addCarrito = e => {
-    console.log(e.target)
-    if (e.target.classList.contains('item')) {
-        console.log(e.target.parentElement)
+    //console.log(e.target)
+    if (e.target.classList.contains('itemButtom')) {
+        setCarrito(e.target.parentElement)
     }
     e.stopPropagation()
 }
 const setCarrito = objeto => {
+    //console.log(objeto)
+    const producto = {
+        id: objeto.querySelector('.itemButtom').id,
+        nombre: objeto.querySelector('.itemNombre').id,
+        precio: objeto.querySelector('.itemPrecio').id,
+        cantidad: 1
+    }
     
+    if (carrito.hasOwnProperty(producto.id)) {
+        producto.cantidad = carrito[producto.id].cantidad + 1
+    }
+    carrito[producto.id] = { ...producto }
+    console.log(producto)
+    alert("Se agrego al carrito")
+    pintarCarrito()
+}
+const itemsCarrito = document.querySelector('#contenidoCarrito')
+const templateCarrito = document.getElementById('template-carrito').content
+const templateFooter = document.getElementById('template-footer').content
+const footer = document.getElementById('footer')
+
+const fragment = document.createDocumentFragment()
+
+const pintarCarrito = () => {
+    itemsCarrito.innerHTML = ''
+
+    Object.values(carrito).forEach(producto => {
+        templateCarrito.querySelector('th').textContent = producto.id
+        templateCarrito.querySelectorAll('td')[0].textContent = producto.nombre
+        templateCarrito.querySelectorAll('td')[1].textContent = producto.cantidad
+        templateCarrito.querySelector('span').textContent = producto.precio * producto.cantidad
+
+        //botones
+        templateCarrito.querySelector('.buttomMas').dataset.id = producto.id
+        templateCarrito.querySelector('.buttomMenos').dataset.id = producto.id
+
+        const clone = templateCarrito.cloneNode(true)
+        fragment.appendChild(clone)
+    })
+    itemsCarrito.appendChild(fragment)
+
+    pintarFooter()
+    }
+
+const pintarFooter = () => {
+    footer.innerHTML = ''
+
+    if (Object.keys(carrito).length === 0) {
+        footer.innerHTML = `
+        <th scope="row" colspan="5">Carrito vacio con innerHTML</th>
+        `
+        return
+    }
+
+    // sumar cantidad y sumar totales
+    const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
+    const nPrecio = Object.values(carrito).reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
+    // console.log(nPrecio)
+
+    templateFooter.querySelectorAll('td')[0].textContent = nCantidad
+    templateFooter.querySelector('span').textContent = nPrecio
+
+    const clone = templateFooter.cloneNode(true)
+    fragment.appendChild(clone)
+
+    footer.appendChild(fragment)
+
+    const boton = document.querySelector('#vaciar-carrito')
+    boton.addEventListener('click', () => {
+        carrito = {}
+        pintarCarrito()
+    })
+}
+const btnAumentarDisminuir = e => {
+    // console.log(e.target.classList.contains('btn-info'))
+    if (e.target.classList.contains('buttomMas')) {
+        const producto = carrito[e.target.id]
+        console.log(carrito[e.target.id])
+        producto.cantidad++
+        carrito[e.target.id] = { ...producto }
+        pintarCarrito()
+    }
+
+    if (e.target.classList.contains('buttomMenos')) {
+        const producto = carrito[e.target.id]
+        producto.cantidad--
+        if (producto.cantidad === 0) {
+            delete carrito[e.target.dataset.id]
+        } else {
+            carrito[e.target.id] = { ...producto }
+        }
+        pintarCarrito()
+    }
+    e.stopPropagation()
 }
