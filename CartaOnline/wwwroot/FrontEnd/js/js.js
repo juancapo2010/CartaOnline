@@ -20,7 +20,10 @@ function botonesTipoMercaderia(data) {
     contenidoCategoria.innerHTML = ''
     for (let valor of data) {
         contenidoCategoria.innerHTML += `
-<button type="button" class="btn btn-outline-secondary" id="${valor.tipoMercaderiaId}" title="${valor.tipoMercaderiaId}">${valor.descripcion}</button>`
+<button type="buttom" class="btn btn-outline-secondary"
+id="${valor.tipoMercaderiaId}"
+name="${valor.descripcion}"
+title="${valor.tipoMercaderiaId}">${valor.descripcion}</button>`
     }
 }
 TraerTipoMercaderia()
@@ -53,6 +56,30 @@ function CardMercaderia(data) {
     }
 }
 TraerMercaderias()
+
+//Filtrar por categoria
+var formularioFiltrarMercaderia = document.getElementById('filtrarMercaderia');
+
+var contenidoItem = document.querySelector('#item')
+
+    formularioFiltrarMercaderia.addEventListener('click', function (e) {
+        e.preventDefault();
+        console.log(e.target.id)
+        var id = e.target.id
+        fetch(`https://localhost:44393/api/mercaderia/?tipo=${id}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(res => res.json())
+            .then(datos => {
+                console.log(datos)
+                CardMercaderia(datos)
+            })
+    })
+
 //Buscar Mercaderia
 document.querySelector("#buscarMercaderia").addEventListener('click', (e) => {
     e.preventDefault();
