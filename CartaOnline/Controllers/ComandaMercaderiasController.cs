@@ -2,9 +2,11 @@
 using CartaOnline.Models;
 using CartaOnline.Services;
 using CartaOnline.DTO;
+using System.Web.Http.Cors;
 
 namespace CartaOnline.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [ApiController]
     public class ComandaMercaderiaController : ControllerBase

@@ -4,15 +4,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CartaOnline.Services;
 using CartaOnline.DTO;
+using System.Web.Http.Cors;
 
 namespace CartaOnline.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [ApiController]
     public class MercaderiaController : ControllerBase
     {
         private readonly IMercaderiaService _service;
-
+        
         public MercaderiaController(IMercaderiaService service)
         {
             _service = service;

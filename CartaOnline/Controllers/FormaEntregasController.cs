@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CartaOnline.Config;
 using CartaOnline.Models;
+using System.Web.Http.Cors;
 
 namespace CartaOnline.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [ApiController]
     public class FormaEntregasController : ControllerBase

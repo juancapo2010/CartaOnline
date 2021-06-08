@@ -4,9 +4,11 @@ using CartaOnline.Services;
 using CartaOnline.DTO;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
+using System.Web.Http.Cors;
 
 namespace CartaOnline.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [ApiController]
     public class ComandaController : ControllerBase
