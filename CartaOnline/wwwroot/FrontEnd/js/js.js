@@ -64,7 +64,6 @@ var contenidoItem = document.querySelector('#item')
 
     formularioFiltrarMercaderia.addEventListener('click', function (e) {
         e.preventDefault();
-        console.log(e.target.id)
         var id = e.target.id
         fetch(`https://localhost:44393/api/mercaderia/?tipo=${id}`, {
             method: 'GET',
@@ -95,7 +94,6 @@ function traerMercaderia(id) {
 function crearMercaderiaItem(mercaderia) {
     const busqueda = document.querySelector("#busqueda");
     busqueda.innerHTML = ''
-
     busqueda.innerHTML = `
                 <div id="card" class="">
                     <div id="card" class="card" style="width: 25rem;">
@@ -116,14 +114,12 @@ document.addEventListener('click', e => {
     addCarrito(e)
 })
 const addCarrito = e => {
-    //console.log(e.target)
     if (e.target.classList.contains('itemButtom')) {
         setCarrito(e.target.parentElement)
     }
     e.stopPropagation()
 }
 const setCarrito = objeto => {
-    //console.log(objeto)
     const producto = {
         id: objeto.querySelector('.itemButtom').id,
         nombre: objeto.querySelector('.itemNombre').id,
@@ -135,7 +131,6 @@ const setCarrito = objeto => {
         producto.cantidad = carrito[producto.id].cantidad + 1
     }
     carrito[producto.id] = { ...producto }
-    console.log(producto)
     alert("Se agrego al carrito")
     pintarCarrito()
 }
@@ -156,8 +151,8 @@ const pintarCarrito = () => {
         templateCarrito.querySelector('span').textContent = producto.precio * producto.cantidad
 
         //botones
-        templateCarrito.querySelector('.buttomMas').dataset.id = producto.id
-        templateCarrito.querySelector('.buttomMenos').dataset.id = producto.id
+        //templateCarrito.querySelector('.buttomMas').dataset.id = producto.id
+        //templateCarrito.querySelector('.buttomMenos').dataset.id = producto.id
 
         const clone = templateCarrito.cloneNode(true)
         fragment.appendChild(clone)
@@ -172,7 +167,7 @@ const pintarFooter = () => {
 
     if (Object.keys(carrito).length === 0) {
         footer.innerHTML = `
-        <th scope="row" colspan="5">Carrito vacio con innerHTML</th>
+        <th scope="row" colspan="5">Carrito vacio</th>
         `
         return
     }
@@ -180,7 +175,6 @@ const pintarFooter = () => {
     // sumar cantidad y sumar totales
     const nCantidad = Object.values(carrito).reduce((acc, { cantidad }) => acc + cantidad, 0)
     const nPrecio = Object.values(carrito).reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
-    // console.log(nPrecio)
 
     templateFooter.querySelectorAll('td')[0].textContent = nCantidad
     templateFooter.querySelector('span').textContent = nPrecio
@@ -196,25 +190,12 @@ const pintarFooter = () => {
         pintarCarrito()
     })
 }
-const btnAumentarDisminuir = e => {
-    // console.log(e.target.classList.contains('btn-info'))
-    if (e.target.classList.contains('buttomMas')) {
-        const producto = carrito[e.target.id]
-        console.log(carrito[e.target.id])
-        producto.cantidad++
-        carrito[e.target.id] = { ...producto }
-        pintarCarrito()
-    }
-
-    if (e.target.classList.contains('buttomMenos')) {
-        const producto = carrito[e.target.id]
-        producto.cantidad--
-        if (producto.cantidad === 0) {
-            delete carrito[e.target.dataset.id]
-        } else {
-            carrito[e.target.id] = { ...producto }
-        }
-        pintarCarrito()
-    }
-    e.stopPropagation()
-}
+//pedir carrito
+var comanda = document.getElementById('cargarComanda');
+comanda.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var datos = new FormData(comanda);
+    console.log(e.target)
+    console.log(datos)
+    console.log(carrito)
+})

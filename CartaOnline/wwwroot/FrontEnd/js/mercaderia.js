@@ -147,7 +147,7 @@ function tablaMercaderia(data) {
                     <td>${valor.precio}</td>
                     <td>${valor.ingredientes}</td>
                     <td>${valor.preparacion}</td>
-                    <td>${valor.imagen}</td>
+                    <td><img src="${valor.imagen}" alt="" width="50" height="50"></td>
                 </tr>`
     }
 }

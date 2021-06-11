@@ -46,7 +46,7 @@
                     </li>
                 </ul>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#carrito">
+                <button type="button" class="btn pista" data-bs-toggle="modal" data-bs-target="#carrito">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li id="Comanda"><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i></a></li>
                     </ul>
@@ -61,28 +61,36 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Nomnre</th>
-                                            <th scope="col">cantidad</th>
-                                            <th scope="col">accion</th>
-                                            <th scope="col">Precio</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="contenidoCarrito">
-                                    </tbody>
-                                    <tfoot>
-                                        <tr id="footer">
-                                            <th scope="row" colspan="5">Carrito vacio - comience a comprar!</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
-                                <button type="button" class="btn btn-primary">Pedir</button>
+                                <form id="cargarComanda">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Nomnre</th>
+                                                <th scope="col">cantidad</th>
+                                                <th scope="col"></th>
+                                                <th scope="col">Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="contenidoCarrito">
+                                        </tbody>
+                                        <tfoot>
+                                            <tr id="footer">
+                                                <th scope="row" colspan="5">Carrito vacio - comience a comprar!</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <div class="modal-footer">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>Seleccione Forma de entrega...</option>
+                                            <option value="1">Salon</option>
+                                            <option value="2">Delivery</option>
+                                            <option value="3">Pedidos Ya</option>
+                                        </select>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
+                                        <button id="pedir" type="submit" class="btn btn-primary">Pedir</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -177,7 +185,7 @@
                 </div>
         </form>
         <hr>
-        <div id="item" class="m-0 row justify-content-center text-center">
+        <div id="item" class="m-0 row justify-content-center text-center vuela">
 
         </div>
         <hr>
@@ -190,14 +198,7 @@
             <th scope="row">id</th>
             <td>Café</td>
             <td>1</td>
-            <td>
-                <button class="btn btn-info btn-sm buttomMas">
-                    +
-                </button>
-                <button class="btn btn-danger btn-sm buttomMenos">
-                    -
-                </button>
-            </td>
+            <td></td>
             <td>$ <span>500</span></td>
         </tr>
     </template>
@@ -211,6 +212,7 @@
             </button>
         </td>
         <td class="font-weight-bold">$ <span>5000</span></td>
+        
     </template>
     <br>
     <footer>
