@@ -5,13 +5,11 @@ function traerComandas() {
     fetch(`https://localhost:44393/api/comanda/`)
         .then((res) => res.json())
         .then((data) => {
-            //console.log(data)
             tabla(data)
         });
 }
 
 function tabla(data) {
-    //console.log(data)
     contenido.innerHTML = ''
     for (let valor of data) {
         var cantidad =0;
@@ -47,12 +45,12 @@ function consultarMercaderias(id) {
         .then((data) => listarMercaderiaByComanda(data));
 }
 function listarMercaderiaByComanda(object) {
-    console.log(object)
     let contenido = document.querySelector('#listado')
     contenido.innerHTML = ''
     for (let valor of object.mercaderia) {
         contenido.innerHTML += `<div class="card" style="width: 18rem;">
   <div class="card-body">
+    <img src="${valor.imagen}" alt="" width="50" height="50">
     <h5 class="card-title">${valor.nombre}</h5>
     <h6 class="card-subtitle mb-2 text-muted">${valor.ingredientes}</h6>
     <p class="card-text">${valor.preparacion}</p>

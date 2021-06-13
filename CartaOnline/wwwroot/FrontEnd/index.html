@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a href=""><img src="image/empresa.png" alt="" width="50" height="50"></a>
-            <a class="navbar-brand" href="#"><strong>Carta</strong>Online</a>
+            <a class="navbar-brand" href="index.html"><strong>Carta</strong>Online</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -46,10 +46,8 @@
                     </li>
                 </ul>
                 <!-- Button trigger modal -->
-                <button type="button" class="btn pista" data-bs-toggle="modal" data-bs-target="#carrito">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li id="Comanda"><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                    </ul>
+                <button type="button" class="btn pista fa fa-shopping-cart" data-bs-toggle="modal" data-bs-target="#carrito">
+                    
                 </button>
 
                 <!-- Modal Carrito -->
@@ -81,8 +79,8 @@
                                         </tfoot>
                                     </table>
                                     <div class="modal-footer">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Seleccione Forma de entrega...</option>
+                                        <select id="FormaEntrega" class="form-select" aria-label="Default select example" required>
+                                            <option selected value="">Seleccione Forma de entrega...</option>
                                             <option value="1">Salon</option>
                                             <option value="2">Delivery</option>
                                             <option value="3">Pedidos Ya</option>
@@ -173,7 +171,7 @@
         <form id="filtrarMercaderia">
             <div id="todos" class="text-center">
                 <div class="btn-group me-2" role="group" aria-label="First group">
-                    <button type="buttom" class="btn btn-outline-secondary" id="" title="">Todos</button>
+                    <button type="submit" class="btn btn-outline-secondary" id="" title="">Todos</button>
                 </div>
             </div>
                 <div id="categorias" class="text-center">

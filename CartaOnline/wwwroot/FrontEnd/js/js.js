@@ -74,7 +74,6 @@ var contenidoItem = document.querySelector('#item')
         })
             .then(res => res.json())
             .then(datos => {
-                console.log(datos)
                 CardMercaderia(datos)
             })
     })
@@ -195,7 +194,31 @@ var comanda = document.getElementById('cargarComanda');
 comanda.addEventListener('submit', function (e) {
     e.preventDefault();
     var datos = new FormData(comanda);
-    console.log(e.target)
-    console.log(datos)
-    console.log(carrito)
+    var mercaderia = []
+    for (let lista of Object.values(carrito)) {
+        for (var i = 0; i < lista.cantidad; i++) {
+            mercaderia.push(new Number(lista.id))
+        }
+    }
+    let jsonDataConvert = JSON.stringify(
+        {
+            mercaderias: mercaderia,
+            FormaEntrega: new Number(document.getElementById("FormaEntrega").value), 
+        }
+
+    );
+    console.log(jsonDataConvert)
+    fetch(`https://localhost:44393/api/comanda`, {
+        method: 'POST',
+        body: jsonDataConvert,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .then(datos => {
+            alert("Gracias por su pedido")
+            location.reload()
+        })
 })

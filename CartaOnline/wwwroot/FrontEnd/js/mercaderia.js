@@ -2,11 +2,6 @@
 var formularioMercaderiaCargar = document.getElementById('cargarMercaderiaForm');
 var mercaderiaRespuestaCargar = document.getElementById('cargarMercaderiaRespuesta');
 
-//const selectElement = document.querySelector('.selectTipo');
-//selectElement.addEventListener('change', function (e) {
-//    console.log(e.target.value)
-//    var tipo = e.target.value  
-//})
 formularioMercaderiaCargar.addEventListener('submit', function (e) {
     e.preventDefault();
     var datos = new FormData(formularioMercaderiaCargar);
@@ -14,7 +9,7 @@ formularioMercaderiaCargar.addEventListener('submit', function (e) {
     let jsonDataConvert = JSON.stringify(
         {
             nombre: datos.get('nombre'),
-            tipo: new Number(datos.get('tipo')),
+            tipo: new Number(document.getElementById("TipoMercaderia").value),
             precio: new Number(datos.get('precio')),
             ingredientes: datos.get('ingredientes'),
             preparacion: datos.get('preparacion'),
@@ -33,18 +28,8 @@ formularioMercaderiaCargar.addEventListener('submit', function (e) {
     })
         .then(res => res.json())
         .then(datos => {
-            console.log(datos)
-            if (!datos.ok) {
-                mercaderiaRespuestaCargar.innerHTML=
-                `<div class="alert alert-danger" role="alert">
-                    Error
-                </div>`
-            } else {
-                mercaderiaRespuestaCargar.innerHTML =
-                    `<div class="alert alert-success" role="alert">
-                    Se cargo Mercaderia
-                </div>`
-            }
+            alert("Se cargo mercaderia")
+            location.reload()
         })
 })
 //Editar Mercaderia
@@ -58,7 +43,7 @@ formularioMercaderiaEditar.addEventListener('submit', function (e) {
     let jsonDataConvert = JSON.stringify(
         {
             nombre: datos.get('nombre'),
-            tipo: new Number(datos.get('tipo')),
+            tipo: new Number(document.getElementById("TipoMercaderiaEditar").value),
             precio: new Number(datos.get('precio')),
             ingredientes: datos.get('ingredientes'),
             preparacion: datos.get('preparacion'),
@@ -77,18 +62,8 @@ formularioMercaderiaEditar.addEventListener('submit', function (e) {
     })
         .then(res => res.json())
         .then(datos => {
-            console.log(datos)
-            if (!datos.ok) {
-                mercaderiaRespuestaEditar.innerHTML =
-                    `<div class="alert alert-danger" role="alert">
-                    Error
-                </div>`
-            } else {
-                mercaderiaRespuestaEditar.innerHTML =
-                    `<div class="alert alert-success" role="alert">
-                    Se Edito Mercaderia
-                </div>`
-            }
+            alert("Se edito Mercaderia")
+            location.reload()
         })
 })
 
@@ -110,18 +85,8 @@ formularioMercaderiaEliminar.addEventListener('submit', function (e) {
     })
         .then(res => res.json())
         .then(datos => {
-            console.log(datos)
-            if (!datos.ok) {
-                mercaderiaRespuestaEditar.innerHTML =
-                    `<div class="alert alert-danger" role="alert">
-                    Error
-                </div>`
-            } else {
-                mercaderiaRespuestaEditar.innerHTML =
-                    `<div class="alert alert-success" role="alert">
-                    Se Elimino Mercaderia
-                </div>`
-            }
+            alert("Se elimino mercaderia")
+            location.reload()
         })
 })
 //ListarMercaderia
