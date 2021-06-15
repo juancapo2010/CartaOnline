@@ -26,7 +26,8 @@ function tabla(data) {
                 </tr>`
     }
 }
-traerComandas()
+window.onload = traerComandas();
+
 
 //Listar Mercaderias de Comanda
 document.addEventListener('click', e => {
@@ -87,3 +88,26 @@ function crearComandaItem(comanda) {
                  </div >
                </div >`
 }
+//Buscar Comanda Fecha
+
+function mostrar() {
+    let x = $("#inputComandaPanel").val();
+    console.log(x);
+    FiltrarComanda(x);
+}
+function FiltrarComanda(valor) {
+    let URL = `https://localhost:44393/api/Comanda/?hora=${valor}`
+    console.log(URL);
+    fetch(URL, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .then(comandas => {
+            tabla(comandas)
+        })
+}
+FiltrarComanda();

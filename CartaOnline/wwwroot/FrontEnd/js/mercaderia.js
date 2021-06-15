@@ -116,5 +116,54 @@ function tablaMercaderia(data) {
                 </tr>`
     }
 }
-traerMercaderia()
+window.onload = traerMercaderia()
 
+//Buscar Mercaderia
+document.querySelector("#buscarMercaderiaPanel").addEventListener('click', (e) => {
+    e.preventDefault();
+    traerMercaderiaPanel(document.querySelector("#inputPanel").value);
+})
+function traerMercaderiaPanel(id) {
+    fetch(`https://localhost:44393/api/mercaderia/${id}`)
+        .then((res) => res.json()
+        )
+        .then((data) => crearMercaderiaItemPanel(data));
+}
+
+function crearMercaderiaItemPanel(mercaderia) {
+    const busquedaPanel = document.querySelector("#busquedaPanel");
+    busquedaPanel.innerHTML = ''
+    busquedaPanel.innerHTML = `
+                <div id="card" class="">
+                    <div id="card" class="card" style="width: 25rem;">
+                    <img src="${mercaderia.imagen}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h4 id="${mercaderia.nombre}" class="card-title itemNombre"><span>${mercaderia.nombre}</span></h4>
+                            <p id="${mercaderia.ingredientes}" class="card-text itemIngredientes"><strong>Ingredientes: </strong>${mercaderia.ingredientes}<span></span></p>
+                            <p id="${mercaderia.preparacion}" class="card-text itemPreparacion"><span><strong>Prepracion: </strong>${mercaderia.preparacion}</span></p>
+                            <p id="${mercaderia.precio}" class="card-text itemPrecio"><span><strong>Precio: </strong>${mercaderia.precio}</span></p>
+                        </div>
+                    </div >
+                </div >`
+}
+function mostrarMercaderia() {
+    let x = $("#inputMercaderiaPanel").val();
+    console.log(x);
+    FiltrarMercaderia(x);
+}
+function FiltrarMercaderia(valor) {
+    let URL = `https://localhost:44393/api/mercaderia/?tipo=${valor}`
+    console.log(URL);
+    fetch(URL, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(res => res.json())
+        .then(mercaderia => {
+            tablaMercaderia(mercaderia)
+        })
+}
+FiltrarMercaderia();
