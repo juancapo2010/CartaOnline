@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CartaOnline.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20210603145747_inicial")]
+    [Migration("20210608212332_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

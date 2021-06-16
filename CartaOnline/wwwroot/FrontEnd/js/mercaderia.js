@@ -100,6 +100,7 @@ function traerMercaderia() {
             tablaMercaderia(data)
         });
 }
+window.onload = traerMercaderia();
 
 function tablaMercaderia(data) {
     //console.log(data)
